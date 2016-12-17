@@ -34,6 +34,9 @@ jar.doLast {
  * ※ 使用する場合は gradle.properties に mainClass を設定する
  */
 task executableJar(type: Jar, dependsOn: jar)  {
+	if (project.hasProperty(propKeyBaseName)) {
+		baseName = getProperty(propKeyBaseName)
+	}
 	if (project.hasProperty(propKeyMainClass)) {
 		if (project.hasProperty(propKeyBaseName)) {
 			baseName = getProperty(propKeyBaseName)
@@ -56,6 +59,9 @@ task executableJar(type: Jar, dependsOn: jar)  {
  * ソースJarファイル生成
  */
 task sourcesJar(type: Jar, dependsOn: classes) {
+	if (project.hasProperty(propKeyBaseName)) {
+		baseName = getProperty(propKeyBaseName)
+	}
     classifier = 'sources'
     from sourceSets.main.allSource
 }
@@ -64,6 +70,9 @@ task sourcesJar(type: Jar, dependsOn: classes) {
  * JavadocJarファイル生成
  */
 task javadocJar(type: Jar, dependsOn: javadoc) {
+	if (project.hasProperty(propKeyBaseName)) {
+		baseName = getProperty(propKeyBaseName)
+	}
     classifier = 'javadoc'
     from javadoc.destinationDir
 }
