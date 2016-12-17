@@ -1,0 +1,48 @@
+/**
+ * JaCoCoプラグイン設定
+ */
+apply plugin: 'jacoco'
+
+// testタスクの実行時にJaCoCoレポート出力
+test.doLast {
+	println ':jacocoTestReport'
+	tasks.jacocoTestReport.execute()
+}
+
+
+/**
+ * CheckStyle
+ */
+apply plugin: 'checkstyle'
+
+tasks.withType(Checkstyle) {
+	checkstyle.toolVersion = '7.1.2'
+	configFile rootProject.file('gradle/configs/google_checks.xml')
+	ignoreFailures true
+	reports {
+		html.enabled = true
+	}
+}
+
+// テストクラスでの実行スキップ
+checkstyleTest {
+	enabled false
+}
+
+
+/**
+ * FindBugs
+ */
+apply plugin: 'findbugs'
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+// テストクラスでの実行スキップ
+findbugsTest {
+	enabled false
+}

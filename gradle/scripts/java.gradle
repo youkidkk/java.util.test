@@ -1,0 +1,36 @@
+/* Javaバージョン */
+def javaVersion = '1.8'
+
+/* エンコード */
+def defaultEncoding = 'UTF-8'
+
+
+/**
+ * Javaバージョン設定
+ */
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+
+/**
+ * エンコード設定 : コンパイル時
+ */
+tasks.withType(AbstractCompile) each {
+	it.options.encoding = defaultEncoding
+}
+
+
+/**
+ * エンコード設定 : テストコンパイル時
+ */
+compileTestJava {
+	options.encoding = defaultEncoding
+}
+
+
+/**
+ * Javadoc
+ */
+javadoc {
+	options.encoding = defaultEncoding
+}
