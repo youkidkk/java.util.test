@@ -4,7 +4,10 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
 import org.junit.runner.Description;
 import org.powermock.api.mockito.PowerMockito;
 import org.slf4j.Logger;
@@ -18,6 +21,18 @@ import java.util.Arrays;
  * ロギングルールクラス テストクラス
  */
 public class LoggingRuleTest {
+
+    /** ロガー */
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    /** ルール : 予期された例外 */
+    public ExpectedException thrown = ExpectedException.none();
+
+    /** ルールチェーン */
+    @Rule
+    public RuleChain ruleChain = RuleChain
+            .outerRule(new LoggingRule(this.logger))
+            .around(this.thrown);
 
     /**
      * LoggingRule#LoggingRule() のテストメソッド
