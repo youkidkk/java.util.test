@@ -2,6 +2,7 @@
 /.settings/
 /bin/
 /build/
+/doc/
 /logs
 /.classpath
 /.project
