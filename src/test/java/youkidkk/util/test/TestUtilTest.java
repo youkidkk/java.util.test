@@ -14,7 +14,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.Arrays;
 
 /**
- *
+ * テスト用ユーティリティクラス テストクラス
  */
 @RunWith(PowerMockRunner.class)
 public class TestUtilTest {
@@ -132,6 +132,62 @@ public class TestUtilTest {
                     Arrays.asList("test string", 123), Arrays.asList(String.class, int.class));
             PowerMockito.verifyPrivate(TestUtilTest.class, times(1))
                     .invoke("privateStaticVoidMethod", "test string", 123);
+        } catch (Throwable t) {
+            fail("予期せぬ例外発生 : " + t);
+        }
+    }
+
+    /** テスト用private変数 */
+    @SuppressWarnings("unused")
+    private int privateIntField = 123;
+
+    /** テスト用private変数 */
+    @SuppressWarnings("unused")
+    private String privateStringField = "abc";
+
+    /**
+     * TestUtil#getPrivateFieldValue のテストメソッド
+     * {@link TestUtil#getPrivateFieldValue(Class, Object, String)}
+     */
+    @PrepareForTest(TestUtilTest.class)
+    @Test
+    public void testGetPrivateFieldValue() {
+        try {
+            int privateIntFieldValue = TestUtil.getPrivateFieldValue(
+                    this.getClass(), this, "privateIntField");
+            assertThat(privateIntFieldValue, is(123));
+
+            String privateStringFieldValue = TestUtil.getPrivateFieldValue(
+                    this.getClass(), this, "privateStringField");
+            assertThat(privateStringFieldValue, is("abc"));
+        } catch (Throwable t) {
+            fail("予期せぬ例外発生 : " + t);
+        }
+    }
+
+    /** テスト用private変数 */
+    @SuppressWarnings("unused")
+    private static int privateStaticIntField = 456;
+
+    /** テスト用private変数 */
+    @SuppressWarnings("unused")
+    private static String privateStaticStringField = "def";
+
+    /**
+     * TestUtil#getPrivateStaticFieldValue のテストメソッド
+     * {@link TestUtil#getPrivateStaticFieldValue(Class, String)}
+     */
+    @PrepareForTest(TestUtilTest.class)
+    @Test
+    public void testGetPrivateStaticFieldValue() {
+        try {
+            int privateIntFieldValue = TestUtil.getPrivateStaticFieldValue(
+                    this.getClass(), "privateStaticIntField");
+            assertThat(privateIntFieldValue, is(456));
+
+            String privateStringFieldValue = TestUtil.getPrivateStaticFieldValue(
+                    this.getClass(), "privateStaticStringField");
+            assertThat(privateStringFieldValue, is("def"));
         } catch (Throwable t) {
             fail("予期せぬ例外発生 : " + t);
         }
