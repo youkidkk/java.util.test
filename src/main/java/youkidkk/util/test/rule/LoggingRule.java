@@ -8,7 +8,17 @@ import org.slf4j.LoggerFactory;
 import java.text.MessageFormat;
 
 /**
- * ロギングルールクラス
+ * <h1>ロギングルールクラス</h1>
+ * <p>テストの開始時等でログ出力を行う。</p>
+ * <h2>使用例</h2>
+ * <pre>
+ * public ExpectedException thrown = ExpectedException.none();
+ *
+ * &#064;Rule
+ * public RuleChain ruleChain = RuleChain
+ *         .outerRule(new WatcherLogRule(this.logger))
+ *         .around(this.thrown);
+ * </pre>
  */
 public class LoggingRule extends TestWatcher {
 
