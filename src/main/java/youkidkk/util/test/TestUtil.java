@@ -12,6 +12,7 @@ public class TestUtil {
     /**
      * privateメソッドを呼び出す。
      *
+     * @param <T> 戻り値の型
      * @param targetClass 呼び出し対象クラス
      * @param targetObject 呼び出し対象オブジェクト
      * @param methodName 呼び出し対象メソッド名
@@ -70,6 +71,7 @@ public class TestUtil {
     /**
      * private-staticメソッドを呼び出す。
      *
+     * @param <T> 戻り値の型
      * @param clazz 呼び出し対象クラス
      * @param methodName 呼び出し対象メソッド名
      * @param args 引数リスト
