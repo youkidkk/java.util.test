@@ -12,6 +12,8 @@ import java.text.MessageFormat;
  * <p>テストの開始時等でログ出力を行う。</p>
  * <h2>使用例</h2>
  * <pre>
+ * private Logger logger = LoggerFactory.getLogger(this.getClass());
+ *
  * public ExpectedException thrown = ExpectedException.none();
  *
  * &#064;Rule
