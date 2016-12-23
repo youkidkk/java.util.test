@@ -11,6 +11,13 @@ import java.util.List;
 public class TestUtil {
 
     /**
+     * コンストラクタ（呼び出し不可）。
+     *
+     */
+    private TestUtil() {
+    }
+
+    /**
      * privateメソッドを呼び出す。
      *
      * @param <T> 戻り値の型

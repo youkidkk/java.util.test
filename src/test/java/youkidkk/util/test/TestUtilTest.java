@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import youkidkk.util.test.rule.LoggingRule;
 
+import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
 /**
@@ -35,6 +36,19 @@ public class TestUtilTest {
     public RuleChain ruleChain = RuleChain
             .outerRule(new LoggingRule(this.logger))
             .around(this.thrown);
+
+    /**
+     * コンストラクタのテスト
+     *
+     * @throws Exception 予期せぬ例外
+     */
+    @Test
+    public void testTestUtil() throws Exception {
+        Constructor<TestUtil> constructor = TestUtil.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        TestUtil instance = constructor.newInstance();
+        assertThat(instance, instanceOf(TestUtil.class));
+    }
 
     /**
      * テスト用メソッド
