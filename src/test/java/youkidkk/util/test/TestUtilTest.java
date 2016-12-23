@@ -50,6 +50,45 @@ public class TestUtilTest {
         assertThat(instance, instanceOf(TestUtil.class));
     }
 
+    /** コンストラクタテスト用フィールド */
+    @SuppressWarnings("unused")
+    private int intField;
+    /** コンストラクタテスト用フィールド */
+    @SuppressWarnings("unused")
+    private String stringField;
+
+    /**
+     * テスト用コンストラクタ
+     *
+     * @param i 引数（int）
+     * @param s 引数（String）
+     */
+    @SuppressWarnings("unused")
+    private TestUtilTest(int i, String s) {
+        this.intField = i;
+        this.stringField = s;
+    }
+
+    /**
+     * TestUtil#invokePrivateConstructor のテストメソッド
+     * {@link TestUtil#invokePrivateConstructor(Class, java.util.List, java.util.List)}
+     * @throws Exception 予期せぬ例外
+     */
+    @Test
+    public void testInvokePrivateConstructor() throws Exception {
+        final int testIntValue = 1;
+        final String testStringValue = "abc";
+
+        TestUtilTest instance = TestUtil.invokePrivateConstructor(TestUtilTest.class,
+                Arrays.asList(testIntValue, testStringValue),
+                Arrays.asList(int.class, String.class));
+        int intFieldValue = TestUtil.getPrivateFieldValue(TestUtilTest.class, instance, "intField");
+        assertThat(intFieldValue, is(testIntValue));
+        String stringFieldValue = TestUtil.getPrivateFieldValue(TestUtilTest.class, instance,
+                "stringField");
+        assertThat(stringFieldValue, is(testStringValue));
+    }
+
     /**
      * テスト用メソッド
      *
@@ -60,6 +99,13 @@ public class TestUtilTest {
     @SuppressWarnings("unused")
     private String privateMethod(int i, String s) {
         return "result : " + i + " : " + s;
+    }
+
+    /**
+     * テスト用コンストラクタ
+     *
+     */
+    public TestUtilTest() {
     }
 
     /**
