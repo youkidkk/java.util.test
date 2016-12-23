@@ -69,6 +69,32 @@ public class TestUtil {
     }
 
     /**
+     * 引数なしのprivateメソッドを呼び出す。
+     *
+     * @param <T> 戻り値の型
+     * @param targetClass 呼び出し対象クラス
+     * @param targetObject 呼び出し対象オブジェクト
+     * @param targetMethodName 呼び出し対象メソッド名
+     * @return 実行したメソッドの戻り値
+     * @throws SecurityException セキュリティ・マネージャの例外
+     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
+     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
+     * @throws IllegalArgumentException メソッド引数異常の場合
+     * @throws IllegalAccessException メソッドアクセス異常の場合
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T invokePrivateMethod(
+            Class<?> targetClass,
+            Object targetObject,
+            String targetMethodName)
+            throws NoSuchMethodException, SecurityException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Method method = targetClass.getDeclaredMethod(targetMethodName);
+        method.setAccessible(true);
+        return (T) method.invoke(targetObject);
+    }
+
+    /**
      * privateメソッドを呼び出す。
      *
      * @param <T> 戻り値の型
@@ -100,6 +126,29 @@ public class TestUtil {
     }
 
     /**
+     * 戻り値のない引数なしのprivateメソッドを呼び出す。
+     *
+     * @param targetClass 呼び出し対象クラス
+     * @param targetObject 呼び出し対象オブジェクト
+     * @param targetMethodName 呼び出し対象メソッド名
+     * @throws SecurityException セキュリティ・マネージャの例外
+     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
+     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
+     * @throws IllegalArgumentException メソッド引数異常の場合
+     * @throws IllegalAccessException メソッドアクセス異常の場合
+     */
+    public static void invokePrivateVoidMethod(
+            Class<?> targetClass,
+            Object targetObject,
+            String targetMethodName)
+            throws NoSuchMethodException, SecurityException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Method method = targetClass.getDeclaredMethod(targetMethodName);
+        method.setAccessible(true);
+        method.invoke(targetObject);
+    }
+
+    /**
      * 戻り値のないprivateメソッドを呼び出す。
      *
      * @param targetClass 呼び出し対象クラス
@@ -125,6 +174,31 @@ public class TestUtil {
                 targetMethodName, argClasses.toArray(new Class[0]));
         method.setAccessible(true);
         method.invoke(targetObject, args.toArray(new Object[0]));
+    }
+
+    /**
+     * 引数なしのprivate-staticメソッドを呼び出す。
+     *
+     * @param <T> 戻り値の型
+     * @param targetClass 呼び出し対象クラス
+     * @param targetMethodName 呼び出し対象メソッド名
+     * @return 実行したメソッドの戻り値
+     * @throws SecurityException セキュリティ・マネージャの例外
+     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
+     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
+     * @throws IllegalArgumentException メソッド引数異常の場合
+     * @throws IllegalAccessException メソッドアクセス異常の場合
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T invokePrivateStaticMethod(
+            Class<?> targetClass,
+            String targetMethodName)
+            throws NoSuchMethodException, SecurityException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Method method = targetClass.getDeclaredMethod(
+                targetMethodName);
+        method.setAccessible(true);
+        return (T) method.invoke(targetClass);
     }
 
     /**
@@ -154,6 +228,27 @@ public class TestUtil {
                 targetMethodName, argClasses.toArray(new Class[0]));
         method.setAccessible(true);
         return (T) method.invoke(targetClass, args.toArray(new Object[0]));
+    }
+
+    /**
+     * 戻り値のない引数なしのprivate-staticメソッドを呼び出す。
+     *
+     * @param targetClass 呼び出し対象クラス
+     * @param targetMethodName 呼び出し対象メソッド名
+     * @throws SecurityException セキュリティ・マネージャの例外
+     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
+     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
+     * @throws IllegalArgumentException メソッド引数異常の場合
+     * @throws IllegalAccessException メソッドアクセス異常の場合
+     */
+    public static void invokePrivateStaticVoidMethod(
+            Class<?> targetClass,
+            String targetMethodName)
+            throws NoSuchMethodException, SecurityException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Method method = targetClass.getDeclaredMethod(targetMethodName);
+        method.setAccessible(true);
+        method.invoke(targetClass);
     }
 
     /**

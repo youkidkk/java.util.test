@@ -43,6 +43,16 @@ public class ClassForTest {
     /**
      * テスト用メソッド
      *
+     * @return String
+     */
+    @SuppressWarnings("unused")
+    private String privateMethod() {
+        return "result : none";
+    }
+
+    /**
+     * テスト用メソッド
+     *
      * @param i 引数（int）
      * @param s 引数（String）
      * @return String
@@ -50,6 +60,14 @@ public class ClassForTest {
     @SuppressWarnings("unused")
     private String privateMethod(int i, String s) {
         return "result : " + i + " : " + s;
+    }
+
+    /**
+     * テスト用メソッド
+     *
+     */
+    @SuppressWarnings("unused")
+    private void privateVoidMethod() {
     }
 
     /**
@@ -65,6 +83,16 @@ public class ClassForTest {
     /**
      * テスト用メソッド
      *
+     * @return String
+     */
+    @SuppressWarnings("unused")
+    private static String privateStaticMethod() {
+        return "result : static none";
+    }
+
+    /**
+     * テスト用メソッド
+     *
      * @param s 引数（String）
      * @param i 引数（int）
      * @return String
@@ -72,6 +100,14 @@ public class ClassForTest {
     @SuppressWarnings("unused")
     private static String privateStaticMethod(String s, int i) {
         return "result : " + s + " : " + i;
+    }
+
+    /**
+     * テスト用メソッド
+     *
+     */
+    @SuppressWarnings("unused")
+    private static void privateStaticVoidMethod() {
     }
 
     /**

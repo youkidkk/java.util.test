@@ -83,6 +83,21 @@ public class TestUtilTest {
 
     /**
      * TestUtil#invokePrivateMethod のテストメソッド
+     * {@link TestUtil#invokePrivateMethod(Class, Object, String)}
+     *
+     * @throws Exception 予期せぬ例外
+     */
+    @PrepareForTest(ClassForTest.class)
+    @Test
+    public void testInvokePrivateMethodWithNoArgs() throws Exception {
+        ClassForTest instance = new ClassForTest(1);
+        String result = TestUtil.invokePrivateMethod(ClassForTest.class, instance,
+                "privateMethod");
+        assertThat(result, is("result : none"));
+    }
+
+    /**
+     * TestUtil#invokePrivateMethod のテストメソッド
      * {@link TestUtil#invokePrivateMethod(Class, Object, String, java.util.List, java.util.List)}
      *
      * @throws Exception 予期せぬ例外
@@ -95,6 +110,20 @@ public class TestUtilTest {
                 "privateMethod",
                 Arrays.asList(123, "test string"), Arrays.asList(int.class, String.class));
         assertThat(result, is("result : 123 : test string"));
+    }
+
+    /**
+     * TestUtil#invokePrivateVoidMethod のテストメソッド
+     * {@link TestUtil#invokePrivateVoidMethod(Class, Object, String)}
+     *
+     * @throws Exception 予期せぬ例外
+     */
+    @PrepareForTest(ClassForTest.class)
+    @Test
+    public void testInvokePrivateVoidMethodWithNoArgs() throws Exception {
+        ClassForTest mock = PowerMockito.mock(ClassForTest.class);
+        TestUtil.invokePrivateVoidMethod(ClassForTest.class, mock, "privateVoidMethod");
+        PowerMockito.verifyPrivate(mock, times(1)).invoke("privateVoidMethod");
     }
 
     /**
@@ -116,6 +145,20 @@ public class TestUtilTest {
 
     /**
      * TestUtil#invokePrivateStaticMethod のテストメソッド
+     * {@link TestUtil#invokePrivateStaticMethod(Class, String)}
+     *
+     * @throws Exception 予期せぬ例外
+     */
+    @PrepareForTest(ClassForTest.class)
+    @Test
+    public void testInvokePrivateStaticMethodWithNoArgs() throws Exception {
+        String result = TestUtil.invokePrivateStaticMethod(ClassForTest.class,
+                "privateStaticMethod");
+        assertThat(result, is("result : static none"));
+    }
+
+    /**
+     * TestUtil#invokePrivateStaticMethod のテストメソッド
      * {@link TestUtil#invokePrivateStaticMethod(Class, String, java.util.List, java.util.List)}
      *
      * @throws Exception 予期せぬ例外
@@ -127,6 +170,21 @@ public class TestUtilTest {
                 "privateStaticMethod",
                 Arrays.asList("test string", 123), Arrays.asList(String.class, int.class));
         assertThat(result, is("result : test string : 123"));
+    }
+
+    /**
+     * TestUtil#invokePrivateStaticVoidMethod のテストメソッド
+     * {@link TestUtil#invokePrivateStaticVoidMethod(Class, String)}
+     * @throws Exception 予期せぬ例外
+     */
+    @PrepareForTest(ClassForTest.class)
+    @Test
+    public void testInvokePrivateStaticVoidMethodWithNoArgs() throws Exception {
+        PowerMockito.mockStatic(ClassForTest.class);
+        TestUtil.invokePrivateStaticVoidMethod(ClassForTest.class,
+                "privateStaticVoidMethod");
+        PowerMockito.verifyPrivate(ClassForTest.class, times(1))
+                .invoke("privateStaticVoidMethod");
     }
 
     /**
