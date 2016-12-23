@@ -50,23 +50,15 @@ public class TestUtilTest {
         assertThat(instance, instanceOf(TestUtil.class));
     }
 
-    /** コンストラクタテスト用フィールド */
-    @SuppressWarnings("unused")
-    private int intField;
-    /** コンストラクタテスト用フィールド */
-    @SuppressWarnings("unused")
-    private String stringField;
-
     /**
-     * テスト用コンストラクタ
-     *
-     * @param i 引数（int）
-     * @param s 引数（String）
+     * TestUtil#invokePrivateConstructor のテストメソッド
+     * {@link TestUtil#invokePrivateConstructor(Class)}
+     * @throws Exception 予期せぬ例外
      */
-    @SuppressWarnings("unused")
-    private TestUtilTest(int i, String s) {
-        this.intField = i;
-        this.stringField = s;
+    @Test
+    public void testInvokePrivateConstructorWithNoArgs() throws Exception {
+        ClassForTest instance = TestUtil.invokePrivateConstructor(ClassForTest.class);
+        assertThat(instance, instanceOf(ClassForTest.class));
     }
 
     /**
@@ -79,33 +71,14 @@ public class TestUtilTest {
         final int testIntValue = 1;
         final String testStringValue = "abc";
 
-        TestUtilTest instance = TestUtil.invokePrivateConstructor(TestUtilTest.class,
+        ClassForTest instance = TestUtil.invokePrivateConstructor(ClassForTest.class,
                 Arrays.asList(testIntValue, testStringValue),
                 Arrays.asList(int.class, String.class));
-        int intFieldValue = TestUtil.getPrivateFieldValue(TestUtilTest.class, instance, "intField");
+        int intFieldValue = TestUtil.getPrivateFieldValue(ClassForTest.class, instance, "intField");
         assertThat(intFieldValue, is(testIntValue));
-        String stringFieldValue = TestUtil.getPrivateFieldValue(TestUtilTest.class, instance,
+        String stringFieldValue = TestUtil.getPrivateFieldValue(ClassForTest.class, instance,
                 "stringField");
         assertThat(stringFieldValue, is(testStringValue));
-    }
-
-    /**
-     * テスト用メソッド
-     *
-     * @param i 引数（int）
-     * @param s 引数（String）
-     * @return String
-     */
-    @SuppressWarnings("unused")
-    private String privateMethod(int i, String s) {
-        return "result : " + i + " : " + s;
-    }
-
-    /**
-     * テスト用コンストラクタ
-     *
-     */
-    public TestUtilTest() {
     }
 
     /**
@@ -114,24 +87,14 @@ public class TestUtilTest {
      *
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(TestUtilTest.class)
+    @PrepareForTest(ClassForTest.class)
     @Test
     public void testInvokePrivateMethod() throws Exception {
-        TestUtilTest instance = new TestUtilTest();
-        String result = TestUtil.invokePrivateMethod(TestUtilTest.class, instance,
+        ClassForTest instance = new ClassForTest(1);
+        String result = TestUtil.invokePrivateMethod(ClassForTest.class, instance,
                 "privateMethod",
                 Arrays.asList(123, "test string"), Arrays.asList(int.class, String.class));
         assertThat(result, is("result : 123 : test string"));
-    }
-
-    /**
-     * テスト用メソッド
-     *
-     * @param i 引数（int）
-     * @param s 引数（String）
-     */
-    @SuppressWarnings("unused")
-    private void privateVoidMethod(int i, String s) {
     }
 
     /**
@@ -140,27 +103,15 @@ public class TestUtilTest {
      *
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(TestUtilTest.class)
+    @PrepareForTest(ClassForTest.class)
     @Test
     public void testInvokePrivateVoidMethod() throws Exception {
-        TestUtilTest mock = PowerMockito.mock(TestUtilTest.class);
-        TestUtil.invokePrivateVoidMethod(TestUtilTest.class, mock,
+        ClassForTest mock = PowerMockito.mock(ClassForTest.class);
+        TestUtil.invokePrivateVoidMethod(ClassForTest.class, mock,
                 "privateVoidMethod",
                 Arrays.asList(123, "test string"), Arrays.asList(int.class, String.class));
         PowerMockito.verifyPrivate(mock, times(1)).invoke("privateVoidMethod", 123,
                 "test string");
-    }
-
-    /**
-     * テスト用メソッド
-     *
-     * @param s 引数（String）
-     * @param i 引数（int）
-     * @return String
-     */
-    @SuppressWarnings("unused")
-    private static String privateStaticMethod(String s, int i) {
-        return "result : " + s + " : " + i;
     }
 
     /**
@@ -169,23 +120,13 @@ public class TestUtilTest {
      *
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(TestUtilTest.class)
+    @PrepareForTest(ClassForTest.class)
     @Test
     public void testInvokePrivateStaticMethod() throws Exception {
-        String result = TestUtil.invokePrivateStaticMethod(TestUtilTest.class,
+        String result = TestUtil.invokePrivateStaticMethod(ClassForTest.class,
                 "privateStaticMethod",
                 Arrays.asList("test string", 123), Arrays.asList(String.class, int.class));
         assertThat(result, is("result : test string : 123"));
-    }
-
-    /**
-     * テスト用メソッド
-     *
-     * @param s 引数（String）
-     * @param i 引数（int）
-     */
-    @SuppressWarnings("unused")
-    private static void privateStaticVoidMethod(String s, int i) {
     }
 
     /**
@@ -193,64 +134,49 @@ public class TestUtilTest {
      * {@link TestUtil#invokePrivateStaticVoidMethod(Class, String, java.util.List, java.util.List)}
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(TestUtilTest.class)
+    @PrepareForTest(ClassForTest.class)
     @Test
     public void testInvokePrivateStaticVoidMethod() throws Exception {
-        PowerMockito.mockStatic(TestUtilTest.class);
-        TestUtil.invokePrivateStaticVoidMethod(TestUtilTest.class,
+        PowerMockito.mockStatic(ClassForTest.class);
+        TestUtil.invokePrivateStaticVoidMethod(ClassForTest.class,
                 "privateStaticVoidMethod",
                 Arrays.asList("test string", 123), Arrays.asList(String.class, int.class));
-        PowerMockito.verifyPrivate(TestUtilTest.class, times(1))
+        PowerMockito.verifyPrivate(ClassForTest.class, times(1))
                 .invoke("privateStaticVoidMethod", "test string", 123);
     }
-
-    /** テスト用private変数 */
-    @SuppressWarnings("unused")
-    private int privateIntField = 123;
-
-    /** テスト用private変数 */
-    @SuppressWarnings("unused")
-    private String privateStringField = "abc";
 
     /**
      * TestUtil#getPrivateFieldValue のテストメソッド
      * {@link TestUtil#getPrivateFieldValue(Class, Object, String)}
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(TestUtilTest.class)
+    @PrepareForTest(ClassForTest.class)
     @Test
     public void testGetPrivateFieldValue() throws Exception {
+        ClassForTest instance = new ClassForTest(1);
         int privateIntFieldValue = TestUtil.getPrivateFieldValue(
-                this.getClass(), this, "privateIntField");
+                ClassForTest.class, instance, "privateIntField");
         assertThat(privateIntFieldValue, is(123));
 
         String privateStringFieldValue = TestUtil.getPrivateFieldValue(
-                this.getClass(), this, "privateStringField");
+                ClassForTest.class, instance, "privateStringField");
         assertThat(privateStringFieldValue, is("abc"));
     }
-
-    /** テスト用private変数 */
-    @SuppressWarnings("unused")
-    private static int privateStaticIntField = 456;
-
-    /** テスト用private変数 */
-    @SuppressWarnings("unused")
-    private static String privateStaticStringField = "def";
 
     /**
      * TestUtil#getPrivateStaticFieldValue のテストメソッド
      * {@link TestUtil#getPrivateStaticFieldValue(Class, String)}
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(TestUtilTest.class)
+    @PrepareForTest(ClassForTest.class)
     @Test
     public void testGetPrivateStaticFieldValue() throws Exception {
         int privateIntFieldValue = TestUtil.getPrivateStaticFieldValue(
-                this.getClass(), "privateStaticIntField");
+                ClassForTest.class, "privateStaticIntField");
         assertThat(privateIntFieldValue, is(456));
 
         String privateStringFieldValue = TestUtil.getPrivateStaticFieldValue(
-                this.getClass(), "privateStaticStringField");
+                ClassForTest.class, "privateStaticStringField");
         assertThat(privateStringFieldValue, is("def"));
     }
 

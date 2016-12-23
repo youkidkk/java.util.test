@@ -19,6 +19,28 @@ public class TestUtil {
     }
 
     /**
+     * 引数なしのprivateコンストラクタを呼び出す。
+     *
+     * @param <T> 戻り値の型
+     * @param targetClass 呼び出し対象クラス
+     * @return 実行したコンストラクタの結果
+     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
+     * @throws SecurityException セキュリティ・マネージャの例外
+     * @throws InstantiationException インスタンス化以上の場合
+     * @throws IllegalAccessException メソッドアクセス異常の場合
+     * @throws IllegalArgumentException メソッド引数異常の場合
+     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T invokePrivateConstructor(Class<?> targetClass)
+            throws NoSuchMethodException, SecurityException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Constructor<?> constructor = targetClass.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        return (T) constructor.newInstance();
+    }
+
+    /**
      * privateコンストラクタを呼び出す。
      *
      * @param <T> 戻り値の型
