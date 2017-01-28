@@ -14,18 +14,18 @@ def execAddName = '-exec'
 // ※ アーカイブ名を指定する場合は gradle.properties に jarBaseName を設定する
 // ※ バージョンを指定する場合は gradle.properties に version を設定する
 jar {
-	if (project.hasProperty(propKeyBaseName)) {
-		baseName = getProperty(propKeyBaseName)
-	}
+    if (project.hasProperty(propKeyBaseName)) {
+        baseName = getProperty(propKeyBaseName)
+    }
 }
 
 
 // jarタスクの実行時に実行可能Jarファイル生成
 jar.doLast {
-	if (project.hasProperty(propKeyMainClass)) {
-		println ':executableJar'
-		tasks.executableJar.execute()
-	}
+    if (project.hasProperty(propKeyMainClass)) {
+        println ':executableJar'
+        tasks.executableJar.execute()
+    }
 }
 
 
@@ -34,24 +34,24 @@ jar.doLast {
  * ※ 使用する場合は gradle.properties に mainClass を設定する
  */
 task executableJar(type: Jar, dependsOn: jar)  {
-	if (project.hasProperty(propKeyBaseName)) {
-		baseName = getProperty(propKeyBaseName)
-	}
-	if (project.hasProperty(propKeyMainClass)) {
-		if (project.hasProperty(propKeyBaseName)) {
-			baseName = getProperty(propKeyBaseName)
-		}
-		baseName = baseName + execAddName
+    if (project.hasProperty(propKeyBaseName)) {
+        baseName = getProperty(propKeyBaseName)
+    }
+    if (project.hasProperty(propKeyMainClass)) {
+        if (project.hasProperty(propKeyBaseName)) {
+            baseName = getProperty(propKeyBaseName)
+        }
+        baseName = baseName + execAddName
 
-		manifest {
-			attributes 'Main-Class' : getProperty(propKeyMainClass)
-		}
-		from configurations.compile.collect {it.isDirectory() ? it : zipTree(it)}
-		from '$buildDir/classes/main'
-		from '$buildDir/resources/main'
-	} else {
-		enabled = false
-	}
+        manifest {
+            attributes 'Main-Class' : getProperty(propKeyMainClass)
+        }
+        from configurations.compile.collect {it.isDirectory() ? it : zipTree(it)}
+        from '$buildDir/classes/main'
+        from '$buildDir/resources/main'
+    } else {
+        enabled = false
+    }
 }
 
 
@@ -59,9 +59,9 @@ task executableJar(type: Jar, dependsOn: jar)  {
  * ソースJarファイル生成
  */
 task sourcesJar(type: Jar, dependsOn: classes) {
-	if (project.hasProperty(propKeyBaseName)) {
-		baseName = getProperty(propKeyBaseName)
-	}
+    if (project.hasProperty(propKeyBaseName)) {
+        baseName = getProperty(propKeyBaseName)
+    }
     classifier = 'sources'
     from sourceSets.main.allSource
 }
@@ -70,9 +70,9 @@ task sourcesJar(type: Jar, dependsOn: classes) {
  * JavadocJarファイル生成
  */
 task javadocJar(type: Jar, dependsOn: javadoc) {
-	if (project.hasProperty(propKeyBaseName)) {
-		baseName = getProperty(propKeyBaseName)
-	}
+    if (project.hasProperty(propKeyBaseName)) {
+        baseName = getProperty(propKeyBaseName)
+    }
     classifier = 'javadoc'
     from javadoc.destinationDir
 }
@@ -93,19 +93,19 @@ artifacts {
 apply plugin: 'application'
 
 run {
-	if (project.hasProperty(propKeyMainClass)) {
-		mainClassName = getProperty(propKeyMainClass)
+    if (project.hasProperty(propKeyMainClass)) {
+        mainClassName = getProperty(propKeyMainClass)
 
-		// 実行時引数を使用可能とする
-		// 実行サンプル : gradle run -Pargs='a b c'
-		if (project.hasProperty('args')) {
-			args project.args.split('\\s+')
-		}
+        // 実行時引数を使用可能とする
+        // 実行サンプル : gradle run -Pargs='a b c'
+        if (project.hasProperty('args')) {
+            args project.args.split('\\s+')
+        }
 
-		// 標準入力を受け取る
-		standardInput = System.in
-	} else {
-		mainClassName = ''
-		enabled = false
-	}
+        // 標準入力を受け取る
+        standardInput = System.in
+    } else {
+        mainClassName = ''
+        enabled = false
+    }
 }

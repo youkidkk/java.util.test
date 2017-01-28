@@ -16,7 +16,7 @@ targetCompatibility = javaVersion
  * エンコード設定 : コンパイル時
  */
 tasks.withType(AbstractCompile) each {
-	it.options.encoding = defaultEncoding
+    it.options.encoding = defaultEncoding
 }
 
 
@@ -24,7 +24,7 @@ tasks.withType(AbstractCompile) each {
  * エンコード設定 : テストコンパイル時
  */
 compileTestJava {
-	options.encoding = defaultEncoding
+    options.encoding = defaultEncoding
 }
 
 
@@ -33,5 +33,5 @@ compileTestJava {
  */
 javadoc {
     options.charSet = defaultEncoding
-	options.encoding = defaultEncoding
+    options.encoding = defaultEncoding
 }

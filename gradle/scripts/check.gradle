@@ -5,8 +5,8 @@ apply plugin: 'jacoco'
 
 // testタスクの実行時にJaCoCoレポート出力
 test.doLast {
-	println ':jacocoTestReport'
-	tasks.jacocoTestReport.execute()
+    println ':jacocoTestReport'
+    tasks.jacocoTestReport.execute()
 }
 
 
@@ -16,17 +16,17 @@ test.doLast {
 apply plugin: 'checkstyle'
 
 tasks.withType(Checkstyle) {
-	checkstyle.toolVersion = '7.1.2'
-	configFile rootProject.file('gradle/configs/google_checks.xml')
-	ignoreFailures true
-	reports {
-		html.enabled = true
-	}
+    checkstyle.toolVersion = '7.1.2'
+    configFile rootProject.file('gradle/configs/google_checks.xml')
+    ignoreFailures true
+    reports {
+        html.enabled = true
+    }
 }
 
 // テストクラスでの実行スキップ
 checkstyleTest {
-	enabled false
+    enabled false
 }
 
 
@@ -44,5 +44,5 @@ tasks.withType(FindBugs) {
 
 // テストクラスでの実行スキップ
 findbugsTest {
-	enabled false
+    enabled false
 }
