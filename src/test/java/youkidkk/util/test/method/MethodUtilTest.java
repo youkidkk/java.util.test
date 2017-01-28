@@ -15,10 +15,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import youkidkk.util.test.ClassForTest;
+import youkidkk.util.test.TestTool;
 import youkidkk.util.test.field.FieldUtil;
 import youkidkk.util.test.rule.LoggingRule;
 
-import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
 /**
@@ -46,10 +46,7 @@ public class MethodUtilTest {
      */
     @Test
     public void testMethodUtil() throws Exception {
-        Constructor<MethodUtil> constructor = MethodUtil.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
-        MethodUtil instance = constructor.newInstance();
-        assertThat(instance, instanceOf(MethodUtil.class));
+        TestTool.testPrivateConstructor(MethodUtil.class);
     }
 
     /**

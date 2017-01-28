@@ -6,8 +6,7 @@ import static org.hamcrest.MatcherAssert.*;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import youkidkk.util.test.ClassForTest;
-
-import java.lang.reflect.Constructor;
+import youkidkk.util.test.TestTool;
 
 /**
  * {@link FieldUtil}のためのテストクラス
@@ -21,10 +20,7 @@ public class FieldUtilTest {
      */
     @Test
     public void testMethodUtil() throws Exception {
-        Constructor<FieldUtil> constructor = FieldUtil.class.getDeclaredConstructor();
-        constructor.setAccessible(true);
-        FieldUtil instance = constructor.newInstance();
-        assertThat(instance, instanceOf(FieldUtil.class));
+        TestTool.testPrivateConstructor(FieldUtil.class);
     }
 
     /**
