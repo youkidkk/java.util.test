@@ -8,6 +8,7 @@ public class ClassForTest {
     /** コンストラクタテスト用フィールド */
     @SuppressWarnings("unused")
     private int intField;
+
     /** コンストラクタテスト用フィールド */
     @SuppressWarnings("unused")
     private String stringField;

@@ -12,7 +12,8 @@ import org.junit.runner.Description;
 import org.powermock.api.mockito.PowerMockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import youkidkk.util.test.TestUtil;
+import youkidkk.util.test.field.FieldUtil;
+import youkidkk.util.test.method.MethodUtil;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -43,7 +44,7 @@ public class LoggingRuleTest {
     @Test
     public void testLoggingRule() throws Exception {
         LoggingRule instance = new LoggingRule();
-        Logger logger = TestUtil.getPrivateFieldValue(LoggingRule.class, instance, "logger");
+        Logger logger = FieldUtil.getPrivateFieldValue(LoggingRule.class, instance, "logger");
         assertThat(logger.getName(), is(LoggingRule.class.getName()));
     }
 
@@ -57,7 +58,7 @@ public class LoggingRuleTest {
     public void testLoggingRuleWithLoggerArg() throws Exception {
         Logger arglogger = LoggerFactory.getLogger(String.class);
         LoggingRule instance = new LoggingRule(arglogger);
-        Logger logger = TestUtil.getPrivateFieldValue(LoggingRule.class, instance, "logger");
+        Logger logger = FieldUtil.getPrivateFieldValue(LoggingRule.class, instance, "logger");
         assertThat(logger, sameInstance(arglogger));
     }
 
@@ -78,7 +79,7 @@ public class LoggingRuleTest {
         Description descriptionMock = this.getDescriptionMock();
 
         LoggingRule instance = new LoggingRule(this.loggerMock);
-        TestUtil.invokePrivateMethod(LoggingRule.class, instance, "starting",
+        MethodUtil.invokePrivateMethod(LoggingRule.class, instance, "starting",
                 Arrays.asList(descriptionMock), Arrays.asList(Description.class));
         String messageExpected = MessageFormat.format(LoggingRule.MSG_PATTERN_START,
                 DESCRIPTION_STRING);
@@ -96,7 +97,7 @@ public class LoggingRuleTest {
         Description descriptionMock = this.getDescriptionMock();
 
         LoggingRule instance = new LoggingRule(this.loggerMock);
-        TestUtil.invokePrivateMethod(LoggingRule.class, instance, "succeeded",
+        MethodUtil.invokePrivateMethod(LoggingRule.class, instance, "succeeded",
                 Arrays.asList(descriptionMock), Arrays.asList(Description.class));
         String messageExpected = MessageFormat.format(LoggingRule.MSG_PATTERN_SUCCEEDED,
                 DESCRIPTION_STRING);
@@ -115,7 +116,7 @@ public class LoggingRuleTest {
         Exception exception = new Exception("Exception message");
 
         LoggingRule instance = new LoggingRule(this.loggerMock);
-        TestUtil.invokePrivateMethod(LoggingRule.class, instance, "failed",
+        MethodUtil.invokePrivateMethod(LoggingRule.class, instance, "failed",
                 Arrays.asList(exception, descriptionMock),
                 Arrays.asList(Throwable.class, Description.class));
         String messageExpected = MessageFormat.format(LoggingRule.MSG_PATTERN_FAILED,
