@@ -1,7 +1,6 @@
 package youkidkk.util.test.method;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -22,17 +21,11 @@ public class MethodUtil {
      * @param <T> 戻り値の型
      * @param targetClass 呼び出し対象クラス
      * @return 実行したコンストラクタの結果
-     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
-     * @throws SecurityException セキュリティ・マネージャの例外
-     * @throws InstantiationException インスタンス化以上の場合
-     * @throws IllegalAccessException メソッドアクセス異常の場合
-     * @throws IllegalArgumentException メソッド引数異常の場合
-     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
+     * @throws Exception 例外時
      */
     @SuppressWarnings("unchecked")
-    public static <T> T invokePrivateConstructor(Class<?> targetClass)
-            throws NoSuchMethodException, SecurityException, InstantiationException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public static <T> T invokePrivateConstructorWithNoArgs(Class<?> targetClass)
+            throws Exception {
         Constructor<?> constructor = targetClass.getDeclaredConstructor();
         constructor.setAccessible(true);
         return (T) constructor.newInstance();
@@ -46,20 +39,14 @@ public class MethodUtil {
      * @param args 引数リスト
      * @param argClasses 引数の型リスト
      * @return 実行したコンストラクタの戻り値
-     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
-     * @throws SecurityException セキュリティ・マネージャの例外
-     * @throws InstantiationException インスタンス化以上の場合
-     * @throws IllegalAccessException メソッドアクセス異常の場合
-     * @throws IllegalArgumentException メソッド引数異常の場合
-     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
+     * @throws Exception 例外時
      */
     @SuppressWarnings("unchecked")
-    public static <T> T invokePrivateConstructor(
+    public static <T> T invokePrivateConstructorWithArgs(
             Class<?> targetClass,
             List<Object> args,
             List<Class<?>> argClasses)
-            throws NoSuchMethodException, SecurityException, InstantiationException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws Exception {
         Constructor<?> constructor = targetClass
                 .getDeclaredConstructor(argClasses.toArray(new Class[0]));
         constructor.setAccessible(true);
@@ -74,19 +61,14 @@ public class MethodUtil {
      * @param targetObject 呼び出し対象オブジェクト
      * @param targetMethodName 呼び出し対象メソッド名
      * @return 実行したメソッドの戻り値
-     * @throws SecurityException セキュリティ・マネージャの例外
-     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
-     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
-     * @throws IllegalArgumentException メソッド引数異常の場合
-     * @throws IllegalAccessException メソッドアクセス異常の場合
+     * @throws Exception 例外時
      */
     @SuppressWarnings("unchecked")
-    public static <T> T invokePrivateMethod(
+    public static <T> T invokePrivateMethodWithNoArgs(
             Class<?> targetClass,
             Object targetObject,
             String targetMethodName)
-            throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws Exception {
         Method method = targetClass.getDeclaredMethod(targetMethodName);
         method.setAccessible(true);
         return (T) method.invoke(targetObject);
@@ -102,21 +84,16 @@ public class MethodUtil {
      * @param args 引数リスト
      * @param argClasses 引数の型リスト
      * @return 実行したメソッドの戻り値
-     * @throws SecurityException セキュリティ・マネージャの例外
-     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
-     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
-     * @throws IllegalArgumentException メソッド引数異常の場合
-     * @throws IllegalAccessException メソッドアクセス異常の場合
+     * @throws Exception 例外時
      */
     @SuppressWarnings("unchecked")
-    public static <T> T invokePrivateMethod(
+    public static <T> T invokePrivateMethodWithArgs(
             Class<?> targetClass,
             Object targetObject,
             String targetMethodName,
             List<Object> args,
             List<Class<?>> argClasses)
-            throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws Exception {
         Method method = targetClass.getDeclaredMethod(
                 targetMethodName, argClasses.toArray(new Class[0]));
         method.setAccessible(true);
@@ -129,18 +106,13 @@ public class MethodUtil {
      * @param targetClass 呼び出し対象クラス
      * @param targetObject 呼び出し対象オブジェクト
      * @param targetMethodName 呼び出し対象メソッド名
-     * @throws SecurityException セキュリティ・マネージャの例外
-     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
-     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
-     * @throws IllegalArgumentException メソッド引数異常の場合
-     * @throws IllegalAccessException メソッドアクセス異常の場合
+     * @throws Exception 例外時
      */
-    public static void invokePrivateVoidMethod(
+    public static void invokePrivateVoidMethodWithNoArgs(
             Class<?> targetClass,
             Object targetObject,
             String targetMethodName)
-            throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws Exception {
         Method method = targetClass.getDeclaredMethod(targetMethodName);
         method.setAccessible(true);
         method.invoke(targetObject);
@@ -154,20 +126,15 @@ public class MethodUtil {
      * @param targetMethodName 呼び出し対象メソッド名
      * @param args 引数リスト
      * @param argClasses 引数の型リスト
-     * @throws SecurityException セキュリティ・マネージャの例外
-     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
-     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
-     * @throws IllegalArgumentException メソッド引数異常の場合
-     * @throws IllegalAccessException メソッドアクセス異常の場合
+     * @throws Exception 例外時
      */
-    public static void invokePrivateVoidMethod(
+    public static void invokePrivateVoidMethodWithArgs(
             Class<?> targetClass,
             Object targetObject,
             String targetMethodName,
             List<Object> args,
             List<Class<?>> argClasses)
-            throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws Exception {
         Method method = targetClass.getDeclaredMethod(
                 targetMethodName, argClasses.toArray(new Class[0]));
         method.setAccessible(true);
@@ -181,18 +148,13 @@ public class MethodUtil {
      * @param targetClass 呼び出し対象クラス
      * @param targetMethodName 呼び出し対象メソッド名
      * @return 実行したメソッドの戻り値
-     * @throws SecurityException セキュリティ・マネージャの例外
-     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
-     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
-     * @throws IllegalArgumentException メソッド引数異常の場合
-     * @throws IllegalAccessException メソッドアクセス異常の場合
+     * @throws Exception 例外時
      */
     @SuppressWarnings("unchecked")
-    public static <T> T invokePrivateStaticMethod(
+    public static <T> T invokePrivateStaticMethodWithNoArgs(
             Class<?> targetClass,
             String targetMethodName)
-            throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws Exception {
         Method method = targetClass.getDeclaredMethod(
                 targetMethodName);
         method.setAccessible(true);
@@ -208,20 +170,15 @@ public class MethodUtil {
      * @param args 引数リスト
      * @param argClasses 引数の型リスト
      * @return 実行したメソッドの戻り値
-     * @throws SecurityException セキュリティ・マネージャの例外
-     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
-     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
-     * @throws IllegalArgumentException メソッド引数異常の場合
-     * @throws IllegalAccessException メソッドアクセス異常の場合
+     * @throws Exception 例外時
      */
     @SuppressWarnings("unchecked")
-    public static <T> T invokePrivateStaticMethod(
+    public static <T> T invokePrivateStaticMethodWithArgs(
             Class<?> targetClass,
             String targetMethodName,
             List<Object> args,
             List<Class<?>> argClasses)
-            throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws Exception {
         Method method = targetClass.getDeclaredMethod(
                 targetMethodName, argClasses.toArray(new Class[0]));
         method.setAccessible(true);
@@ -233,17 +190,12 @@ public class MethodUtil {
      *
      * @param targetClass 呼び出し対象クラス
      * @param targetMethodName 呼び出し対象メソッド名
-     * @throws SecurityException セキュリティ・マネージャの例外
-     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
-     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
-     * @throws IllegalArgumentException メソッド引数異常の場合
-     * @throws IllegalAccessException メソッドアクセス異常の場合
+     * @throws Exception 例外時
      */
-    public static void invokePrivateStaticVoidMethod(
+    public static void invokePrivateStaticVoidMethodWithNoArgs(
             Class<?> targetClass,
             String targetMethodName)
-            throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws Exception {
         Method method = targetClass.getDeclaredMethod(targetMethodName);
         method.setAccessible(true);
         method.invoke(targetClass);
@@ -256,19 +208,14 @@ public class MethodUtil {
      * @param targetMethodName 呼び出し対象メソッド名
      * @param args 引数リスト
      * @param argClasses 引数の型リスト
-     * @throws SecurityException セキュリティ・マネージャの例外
-     * @throws NoSuchMethodException 対象のメソッドが見つからない場合
-     * @throws InvocationTargetException 基本となるメソッドが例外をスローする場合
-     * @throws IllegalArgumentException メソッド引数異常の場合
-     * @throws IllegalAccessException メソッドアクセス異常の場合
+     * @throws Exception 例外時
      */
-    public static void invokePrivateStaticVoidMethod(
+    public static void invokePrivateStaticVoidMethodWithArgs(
             Class<?> targetClass,
             String targetMethodName,
             List<Object> args,
             List<Class<?>> argClasses)
-            throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            throws Exception {
         Method method = targetClass.getDeclaredMethod(
                 targetMethodName, argClasses.toArray(new Class[0]));
         method.setAccessible(true);
