@@ -79,7 +79,7 @@ public class LoggingRuleTest {
         Description descriptionMock = this.getDescriptionMock();
 
         LoggingRule instance = new LoggingRule(this.loggerMock);
-        MethodUtil.invokePrivateMethod(LoggingRule.class, instance, "starting",
+        MethodUtil.invokePrivateMethodWithArgs(LoggingRule.class, instance, "starting",
                 Arrays.asList(descriptionMock), Arrays.asList(Description.class));
         String messageExpected = MessageFormat.format(LoggingRule.MSG_PATTERN_START,
                 DESCRIPTION_STRING);
@@ -97,7 +97,7 @@ public class LoggingRuleTest {
         Description descriptionMock = this.getDescriptionMock();
 
         LoggingRule instance = new LoggingRule(this.loggerMock);
-        MethodUtil.invokePrivateMethod(LoggingRule.class, instance, "succeeded",
+        MethodUtil.invokePrivateMethodWithArgs(LoggingRule.class, instance, "succeeded",
                 Arrays.asList(descriptionMock), Arrays.asList(Description.class));
         String messageExpected = MessageFormat.format(LoggingRule.MSG_PATTERN_SUCCEEDED,
                 DESCRIPTION_STRING);
@@ -116,7 +116,7 @@ public class LoggingRuleTest {
         Exception exception = new Exception("Exception message");
 
         LoggingRule instance = new LoggingRule(this.loggerMock);
-        MethodUtil.invokePrivateMethod(LoggingRule.class, instance, "failed",
+        MethodUtil.invokePrivateMethodWithArgs(LoggingRule.class, instance, "failed",
                 Arrays.asList(exception, descriptionMock),
                 Arrays.asList(Throwable.class, Description.class));
         String messageExpected = MessageFormat.format(LoggingRule.MSG_PATTERN_FAILED,
