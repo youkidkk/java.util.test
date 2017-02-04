@@ -36,7 +36,7 @@ checkstyleTest {
 apply plugin: 'findbugs'
 
 tasks.withType(FindBugs) {
-    // FindBugs でエラーが出るため、レベルをデフォルトに
+    // FindBugs でエラーが出るため、レベルをデフォルトにする
     // effort = "max"
     // reportLevel = "low"
     reports {
