@@ -5,7 +5,7 @@ apply plugin: 'maven'
  * Gradleラッパー設定
  */
 task wrapper(type: Wrapper) {
-    gradleVersion '2.14'
+    gradleVersion '3.2'
 }
 
 /**
