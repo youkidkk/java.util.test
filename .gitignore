@@ -1,10 +1,20 @@
-/.gradle/
-/.settings/
-/bin/
-/build/
-/doc/
-/logs
-/.classpath
-/.project
-/.checkstyle
-/*~
+# 全ディレクトリ対象
+/**/.gradle/
+/**/.settings/
+/**/bin/
+/**/build/
+/**/doc/
+/**/logs/
+/**/tmp/
+/**/tmptest/
+/**/.checkstyle
+/**/.classpath
+/**/.project
+/**/*~
+
+# ルート直下のサブディレクトリのみ
+/*/gradle/
+
+# Gradleラッパー関連
+/**/gradle/wrapper/
+/**/gradlew**
