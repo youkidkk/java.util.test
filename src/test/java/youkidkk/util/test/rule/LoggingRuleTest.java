@@ -12,16 +12,21 @@ import org.junit.runner.Description;
 import org.powermock.api.mockito.PowerMockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import youkidkk.util.message.Messages;
+import youkidkk.util.message.MessagesFactory;
+import youkidkk.util.test.constants.MessageConstants;
 import youkidkk.util.test.field.FieldUtil;
 import youkidkk.util.test.method.MethodUtil;
 
-import java.text.MessageFormat;
 import java.util.Arrays;
 
 /**
  * ロギングルールクラス テストクラス
  */
 public class LoggingRuleTest {
+
+    /** メッセージ */
+    private static final Messages MESSAGES = MessagesFactory.createMessages(LoggingRule.class);
 
     /** ロガー */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -81,8 +86,7 @@ public class LoggingRuleTest {
         LoggingRule instance = new LoggingRule(this.loggerMock);
         MethodUtil.invokePrivateMethodWithArgs(LoggingRule.class, instance, "starting",
                 Arrays.asList(descriptionMock), Arrays.asList(Description.class));
-        String messageExpected = MessageFormat.format(LoggingRule.MSG_PATTERN_START,
-                DESCRIPTION_STRING);
+        String messageExpected = MESSAGES.get(MessageConstants.START, DESCRIPTION_STRING);
         verify(this.loggerMock, times(1)).info(messageExpected);
     }
 
@@ -99,8 +103,7 @@ public class LoggingRuleTest {
         LoggingRule instance = new LoggingRule(this.loggerMock);
         MethodUtil.invokePrivateMethodWithArgs(LoggingRule.class, instance, "succeeded",
                 Arrays.asList(descriptionMock), Arrays.asList(Description.class));
-        String messageExpected = MessageFormat.format(LoggingRule.MSG_PATTERN_SUCCEEDED,
-                DESCRIPTION_STRING);
+        String messageExpected = MESSAGES.get(MessageConstants.END_SUCCEEDED, DESCRIPTION_STRING);
         verify(this.loggerMock, times(1)).info(messageExpected);
     }
 
@@ -119,8 +122,8 @@ public class LoggingRuleTest {
         MethodUtil.invokePrivateMethodWithArgs(LoggingRule.class, instance, "failed",
                 Arrays.asList(exception, descriptionMock),
                 Arrays.asList(Throwable.class, Description.class));
-        String messageExpected = MessageFormat.format(LoggingRule.MSG_PATTERN_FAILED,
-                DESCRIPTION_STRING, System.lineSeparator(), exception);
+        String messageExpected = MESSAGES.get(MessageConstants.END_FAILED, DESCRIPTION_STRING,
+                System.lineSeparator(), exception);
         verify(this.loggerMock, times(1)).error(messageExpected);
     }
 

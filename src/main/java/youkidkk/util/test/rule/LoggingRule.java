@@ -4,8 +4,9 @@ import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.text.MessageFormat;
+import youkidkk.util.message.Messages;
+import youkidkk.util.message.MessagesFactory;
+import youkidkk.util.test.constants.MessageConstants;
 
 /**
  * <h1>ロギングルールクラス</h1>
@@ -18,20 +19,14 @@ import java.text.MessageFormat;
  *
  * &#064;Rule
  * public RuleChain ruleChain = RuleChain
- *         .outerRule(new WatcherLogRule(this.logger))
+ *         .outerRule(new LoggingRule(this.logger))
  *         .around(this.thrown);
  * </pre>
  */
 public class LoggingRule extends TestWatcher {
 
-    /** メッセージパターン : 開始時 */
-    public static final String MSG_PATTERN_START = "Test Case : {0} - Start.";
-
-    /** メッセージパターン : 成功時 */
-    public static final String MSG_PATTERN_SUCCEEDED = "Test Case : {0} - Succeeded.";
-
-    /** メッセージパターン : 失敗時 */
-    public static final String MSG_PATTERN_FAILED = "Test Case : {0} - Failed.{1}{2}";
+    /** メッセージ */
+    private static final Messages MESSAGES = MessagesFactory.createMessages(LoggingRule.class);
 
     /** ロガー */
     protected Logger logger;
@@ -59,7 +54,7 @@ public class LoggingRule extends TestWatcher {
     protected void starting(Description description) {
         // 開始時にログを出力する
         this.logger.info(
-                MessageFormat.format(MSG_PATTERN_START, description));
+                MESSAGES.get(MessageConstants.START, description));
     }
 
     /**
@@ -70,7 +65,7 @@ public class LoggingRule extends TestWatcher {
     protected void succeeded(Description description) {
         // 成功時にログを出力する
         this.logger.info(
-                MessageFormat.format(MSG_PATTERN_SUCCEEDED, description));
+                MESSAGES.get(MessageConstants.END_SUCCEEDED, description));
     }
 
     /**
@@ -81,8 +76,8 @@ public class LoggingRule extends TestWatcher {
     protected void failed(Throwable th, Description description) {
         // 失敗時にログを出力する
         this.logger.error(
-                MessageFormat.format(MSG_PATTERN_FAILED,
-                        description, System.lineSeparator(), th.toString()));
+                MESSAGES.get(MessageConstants.END_FAILED, description, System.lineSeparator(),
+                        th.toString()));
     }
 
 }
