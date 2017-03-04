@@ -4,8 +4,8 @@ import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import youkidkk.util.message.Messages;
-import youkidkk.util.message.MessagesFactory;
+import youkidkk.util.message.Message;
+import youkidkk.util.message.MessageFactory;
 import youkidkk.util.test.constants.MessageConstants;
 
 /**
@@ -26,7 +26,7 @@ import youkidkk.util.test.constants.MessageConstants;
 public class LoggingRule extends TestWatcher {
 
     /** メッセージ */
-    private static final Messages MESSAGES = MessagesFactory.createMessages(LoggingRule.class);
+    static final Message msg = MessageFactory.get(LoggingRule.class);
 
     /** ロガー */
     protected Logger logger;
@@ -54,7 +54,7 @@ public class LoggingRule extends TestWatcher {
     protected void starting(Description description) {
         // 開始時にログを出力する
         this.logger.info(
-                MESSAGES.get(MessageConstants.START, description));
+                msg.get(MessageConstants.START, description));
     }
 
     /**
@@ -65,7 +65,7 @@ public class LoggingRule extends TestWatcher {
     protected void succeeded(Description description) {
         // 成功時にログを出力する
         this.logger.info(
-                MESSAGES.get(MessageConstants.END_SUCCEEDED, description));
+                msg.get(MessageConstants.END_SUCCEEDED, description));
     }
 
     /**
@@ -76,7 +76,7 @@ public class LoggingRule extends TestWatcher {
     protected void failed(Throwable th, Description description) {
         // 失敗時にログを出力する
         this.logger.error(
-                MESSAGES.get(MessageConstants.END_FAILED, description, System.lineSeparator(),
+                msg.get(MessageConstants.END_FAILED, description, System.lineSeparator(),
                         th.toString()));
     }
 

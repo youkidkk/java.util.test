@@ -1,7 +1,7 @@
 package youkidkk.util.test;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
@@ -28,17 +28,18 @@ public class TestTool {
         Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 
         // コンストラクタが一つだけ存在すること
-        assertThat(constructors.length, is(1));
+        MatcherAssert.assertThat(constructors.length, CoreMatchers.is(1));
 
         // デフォルトコンストラクタが引数なしで private であること
         Constructor<?> defaultConstructor = constructors[0];
-        assertThat(defaultConstructor.getParameterTypes().length, is(0));
-        assertThat(Modifier.isPrivate(defaultConstructor.getModifiers()), is(true));
+        MatcherAssert.assertThat(defaultConstructor.getParameterTypes().length, CoreMatchers.is(0));
+        MatcherAssert.assertThat(Modifier.isPrivate(defaultConstructor.getModifiers()),
+                CoreMatchers.is(true));
 
         defaultConstructor.setAccessible(true);
         // コンストラクタを呼び出し、結果をチェック
         Object instance = defaultConstructor.newInstance();
-        assertThat(instance, is(notNullValue()));
-        assertThat(instance, instanceOf(clazz));
+        MatcherAssert.assertThat(instance, CoreMatchers.is(CoreMatchers.notNullValue()));
+        MatcherAssert.assertThat(instance, CoreMatchers.instanceOf(clazz));
     }
 }
