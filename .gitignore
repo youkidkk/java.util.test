@@ -1,5 +1,6 @@
 # 全ディレクトリ対象
 /**/.gradle/
+/**/.idea/
 /**/.settings/
 /**/bin/
 /**/build/
