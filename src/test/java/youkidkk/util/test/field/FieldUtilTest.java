@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
 import org.junit.Test;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import youkidkk.util.test.ClassForTest;
 import youkidkk.util.test.TestTool;
 
@@ -28,16 +27,15 @@ public class FieldUtilTest {
      * {@link FieldUtil#getPrivateFieldValue(Class, Object, String)}
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(ClassForTest.class)
     @Test
     public void testGetPrivateFieldValue() throws Exception {
         ClassForTest instance = new ClassForTest(1);
         int privateIntFieldValue = FieldUtil.getPrivateFieldValue(
-                ClassForTest.class, instance, "privateIntField");
+                instance, "privateIntField");
         assertThat(privateIntFieldValue, is(123));
 
         String privateStringFieldValue = FieldUtil.getPrivateFieldValue(
-                ClassForTest.class, instance, "privateStringField");
+                instance, "privateStringField");
         assertThat(privateStringFieldValue, is("abc"));
     }
 
@@ -46,7 +44,6 @@ public class FieldUtilTest {
      * {@link FieldUtil#getPrivateStaticFieldValue(Class, String)}
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(ClassForTest.class)
     @Test
     public void testGetPrivateStaticFieldValue() throws Exception {
         int privateIntFieldValue = FieldUtil.getPrivateStaticFieldValue(

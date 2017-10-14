@@ -2,42 +2,23 @@ package youkidkk.util.test.method;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
-import static org.mockito.Mockito.*;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import youkidkk.util.test.ClassForTest;
 import youkidkk.util.test.TestTool;
 import youkidkk.util.test.field.FieldUtil;
-import youkidkk.util.test.rule.LoggingRule;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * {@link MethodUtil}のためのテストクラス
  */
-@RunWith(PowerMockRunner.class)
 public class MethodUtilTest {
-
-    /** ロガー */
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /** ルール : 予期された例外 */
     public ExpectedException thrown = ExpectedException.none();
-
-    /** ルールチェーン */
-    @Rule
-    public RuleChain ruleChain = RuleChain
-            .outerRule(new LoggingRule(this.logger))
-            .around(this.thrown);
 
     /**
      * コンストラクタのテスト
@@ -56,8 +37,12 @@ public class MethodUtilTest {
      */
     @Test
     public void testInvokePrivateConstructorWithNoArgs() throws Exception {
-        ClassForTest instance = MethodUtil.invokePrivateConstructorWithNoArgs(ClassForTest.class);
-        assertThat(instance, instanceOf(ClassForTest.class));
+        ClassForTest instance1 = MethodUtil.invokePrivateConstructor(ClassForTest.class);
+        assertThat(instance1, instanceOf(ClassForTest.class));
+
+        ClassForTest instance2 = MethodUtil.invokePrivateConstructor(ClassForTest.class,
+                (Object[]) null);
+        assertThat(instance2, instanceOf(ClassForTest.class));
     }
 
     /**
@@ -66,13 +51,12 @@ public class MethodUtilTest {
      * @throws Exception 予期せぬ例外
      */
     @Test
-    public void testInvokePrivateConstructor() throws Exception {
+    public void testInvokePrivateConstructorWithArgs() throws Exception {
         final int testIntValue = 1;
         final String testStringValue = "abc";
 
-        ClassForTest instance = MethodUtil.invokePrivateConstructorWithArgs(ClassForTest.class,
-                Arrays.asList(testIntValue, testStringValue),
-                Arrays.asList(int.class, String.class));
+        ClassForTest instance = MethodUtil.invokePrivateConstructor(ClassForTest.class,
+                testIntValue, testStringValue);
         int intFieldValue = FieldUtil.getPrivateFieldValue(ClassForTest.class, instance,
                 "intField");
         assertThat(intFieldValue, is(testIntValue));
@@ -87,13 +71,16 @@ public class MethodUtilTest {
      *
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(ClassForTest.class)
     @Test
     public void testInvokePrivateMethodWithNoArgs() throws Exception {
-        ClassForTest instance = new ClassForTest(1);
-        String result = MethodUtil.invokePrivateMethodWithNoArgs(ClassForTest.class, instance,
-                "privateMethod");
-        assertThat(result, is("result : none"));
+        ClassForTest instance1 = new ClassForTest(1);
+        String result1 = MethodUtil.invokePrivateMethod(instance1, "privateMethod");
+        assertThat(result1, is("result : none"));
+
+        ClassForTest instance2 = new ClassForTest(1);
+        String result2 = MethodUtil.invokePrivateMethod(instance2, "privateMethod",
+                (Object[]) null);
+        assertThat(result2, is("result : none"));
     }
 
     /**
@@ -102,13 +89,12 @@ public class MethodUtilTest {
      *
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(ClassForTest.class)
     @Test
-    public void testInvokePrivateMethod() throws Exception {
+    public void testInvokePrivateMethodWithArgs() throws Exception {
         ClassForTest instance = new ClassForTest(1);
-        String result = MethodUtil.invokePrivateMethodWithArgs(ClassForTest.class, instance,
+        String result = MethodUtil.invokePrivateMethod(instance,
                 "privateMethod",
-                Arrays.asList(123, "test string"), Arrays.asList(int.class, String.class));
+                123, "test string");
         assertThat(result, is("result : 123 : test string"));
     }
 
@@ -118,12 +104,15 @@ public class MethodUtilTest {
      *
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(ClassForTest.class)
     @Test
     public void testInvokePrivateVoidMethodWithNoArgs() throws Exception {
-        ClassForTest mock = PowerMockito.mock(ClassForTest.class);
-        MethodUtil.invokePrivateVoidMethodWithNoArgs(ClassForTest.class, mock, "privateVoidMethod");
-        PowerMockito.verifyPrivate(mock, times(1)).invoke("privateVoidMethod");
+        ClassForTest instance1 = new ClassForTest(1);
+        MethodUtil.invokePrivateVoidMethod(instance1, "privateVoidMethod");
+        assertThat(ClassForTest.methodInvoked, is("privateVoidMethod with no args"));
+
+        ClassForTest instance2 = new ClassForTest(1);
+        MethodUtil.invokePrivateVoidMethod(instance2, "privateVoidMethod", (Object[]) null);
+        assertThat(ClassForTest.methodInvoked, is("privateVoidMethod with no args"));
     }
 
     /**
@@ -132,15 +121,12 @@ public class MethodUtilTest {
      *
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(ClassForTest.class)
     @Test
-    public void testInvokePrivateVoidMethod() throws Exception {
-        ClassForTest mock = PowerMockito.mock(ClassForTest.class);
-        MethodUtil.invokePrivateVoidMethodWithArgs(ClassForTest.class, mock,
-                "privateVoidMethod",
-                Arrays.asList(123, "test string"), Arrays.asList(int.class, String.class));
-        PowerMockito.verifyPrivate(mock, times(1)).invoke("privateVoidMethod", 123,
-                "test string");
+    public void testInvokePrivateVoidMethodWithArgs() throws Exception {
+        ClassForTest instance = new ClassForTest(1);
+        MethodUtil.invokePrivateVoidMethod(instance, "privateVoidMethod",
+                123, "test string");
+        assertThat(ClassForTest.methodInvoked, is("privateVoidMethod with 123 and test string"));
     }
 
     /**
@@ -149,12 +135,15 @@ public class MethodUtilTest {
      *
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(ClassForTest.class)
     @Test
     public void testInvokePrivateStaticMethodWithNoArgs() throws Exception {
-        String result = MethodUtil.invokePrivateStaticMethodWithNoArgs(ClassForTest.class,
+        String result1 = MethodUtil.invokePrivateStaticMethod(ClassForTest.class,
                 "privateStaticMethod");
-        assertThat(result, is("result : static none"));
+        assertThat(result1, is("result : static none"));
+
+        String result2 = MethodUtil.invokePrivateStaticMethod(ClassForTest.class,
+                "privateStaticMethod", (Object[]) null);
+        assertThat(result2, is("result : static none"));
     }
 
     /**
@@ -163,12 +152,11 @@ public class MethodUtilTest {
      *
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(ClassForTest.class)
     @Test
-    public void testInvokePrivateStaticMethod() throws Exception {
-        String result = MethodUtil.invokePrivateStaticMethodWithArgs(ClassForTest.class,
+    public void testInvokePrivateStaticMethodWithArgs() throws Exception {
+        String result = MethodUtil.invokePrivateStaticMethod(ClassForTest.class,
                 "privateStaticMethod",
-                Arrays.asList("test string", 123), Arrays.asList(String.class, int.class));
+                "test string", 123);
         assertThat(result, is("result : test string : 123"));
     }
 
@@ -177,14 +165,15 @@ public class MethodUtilTest {
      * {@link MethodUtil#invokePrivateStaticVoidMethodWithNoArgs(Class, String)}
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(ClassForTest.class)
     @Test
     public void testInvokePrivateStaticVoidMethodWithNoArgs() throws Exception {
-        PowerMockito.mockStatic(ClassForTest.class);
-        MethodUtil.invokePrivateStaticVoidMethodWithNoArgs(ClassForTest.class,
+        MethodUtil.invokePrivateStaticVoidMethod(ClassForTest.class,
                 "privateStaticVoidMethod");
-        PowerMockito.verifyPrivate(ClassForTest.class, times(1))
-                .invoke("privateStaticVoidMethod");
+        assertThat(ClassForTest.methodInvoked, is("privateStaticVoidMethod with no args"));
+
+        MethodUtil.invokePrivateStaticVoidMethod(ClassForTest.class,
+                "privateStaticVoidMethod", (Object[]) null);
+        assertThat(ClassForTest.methodInvoked, is("privateStaticVoidMethod with no args"));
     }
 
     /**
@@ -192,15 +181,28 @@ public class MethodUtilTest {
      * {@link MethodUtil#invokePrivateStaticVoidMethodWithArgs(Class, String, java.util.List, java.util.List)}
      * @throws Exception 予期せぬ例外
      */
-    @PrepareForTest(ClassForTest.class)
     @Test
-    public void testInvokePrivateStaticVoidMethod() throws Exception {
-        PowerMockito.mockStatic(ClassForTest.class);
-        MethodUtil.invokePrivateStaticVoidMethodWithArgs(ClassForTest.class,
+    public void testInvokePrivateStaticVoidMethodWithArgs() throws Exception {
+        MethodUtil.invokePrivateStaticVoidMethod(ClassForTest.class,
                 "privateStaticVoidMethod",
-                Arrays.asList("test string", 123), Arrays.asList(String.class, int.class));
-        PowerMockito.verifyPrivate(ClassForTest.class, times(1))
-                .invoke("privateStaticVoidMethod", "test string", 123);
+                "test string", 123);
+        assertThat(ClassForTest.methodInvoked,
+                is("privateStaticVoidMethod with test string and 123"));
     }
 
+    /**
+     * TestUtil#mapToPrimitiveClassList のテストメソッド
+     *
+     * @throws Exception 予期せぬ例外
+     */
+    @Test
+    public void testMapToPrimitiveClassList() throws Exception {
+        Object[] args = new Object[] { new Byte((byte) 1), new Short((short) 2), new Integer(3),
+                new Long(4L), new Character('a'), new Float(0.5F), new Double(0.6D),
+                new Boolean(true), "test" };
+        List<Class<?>> result = MethodUtil.invokePrivateStaticMethod(MethodUtil.class,
+                "mapToPrimitiveClassList", (Object) args);
+        assertThat(result, is(Arrays.asList(byte.class, short.class, int.class, long.class,
+                char.class, float.class, double.class, boolean.class, String.class)));
+    }
 }

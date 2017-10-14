@@ -1,5 +1,6 @@
 # 全ディレクトリ対象
 /**/.gradle/
+/**/.idea/
 /**/.settings/
 /**/bin/
 /**/build/
@@ -10,6 +11,7 @@
 /**/.checkstyle
 /**/.classpath
 /**/.project
+/**/gradlew*
 /**/*~
 
 # ルート直下のサブディレクトリのみ

@@ -5,6 +5,9 @@ package youkidkk.util.test;
  */
 public class ClassForTest {
 
+    /** voidメソッド確認用フィールド */
+    public static String methodInvoked;
+
     /** コンストラクタテスト用フィールド */
     @SuppressWarnings("unused")
     private int intField;
@@ -69,6 +72,7 @@ public class ClassForTest {
      */
     @SuppressWarnings("unused")
     private void privateVoidMethod() {
+        methodInvoked = "privateVoidMethod with no args";
     }
 
     /**
@@ -79,6 +83,7 @@ public class ClassForTest {
      */
     @SuppressWarnings("unused")
     private void privateVoidMethod(int i, String s) {
+        methodInvoked = "privateVoidMethod with " + i + " and " + s;
     }
 
     /**
@@ -109,6 +114,7 @@ public class ClassForTest {
      */
     @SuppressWarnings("unused")
     private static void privateStaticVoidMethod() {
+        methodInvoked = "privateStaticVoidMethod with no args";
     }
 
     /**
@@ -119,6 +125,7 @@ public class ClassForTest {
      */
     @SuppressWarnings("unused")
     private static void privateStaticVoidMethod(String s, int i) {
+        methodInvoked = "privateStaticVoidMethod with " + s + " and " + i;
     }
 
     /** テスト用private変数 */
