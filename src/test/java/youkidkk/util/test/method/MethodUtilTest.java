@@ -4,20 +4,15 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.mockito.Mockito.*;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import youkidkk.util.test.ClassForTest;
 import youkidkk.util.test.TestTool;
 import youkidkk.util.test.field.FieldUtil;
-import youkidkk.util.test.rule.LoggingRule;
 
 import java.util.Arrays;
 
@@ -27,17 +22,8 @@ import java.util.Arrays;
 @RunWith(PowerMockRunner.class)
 public class MethodUtilTest {
 
-    /** ロガー */
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     /** ルール : 予期された例外 */
     public ExpectedException thrown = ExpectedException.none();
-
-    /** ルールチェーン */
-    @Rule
-    public RuleChain ruleChain = RuleChain
-            .outerRule(new LoggingRule(this.logger))
-            .around(this.thrown);
 
     /**
      * コンストラクタのテスト
